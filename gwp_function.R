@@ -11,6 +11,8 @@
 # @param CO2RF is the radiative forcing of carbon dioxide (in W/m2)
 # This is calculated to be 2.286 in 2023
 
+#hello
+
 # @return GWP - the global warming potential of a greenhouse gas
 
 gwp_function <- function(c, rf, CO2_rf = 2.286)
