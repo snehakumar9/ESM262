@@ -4,9 +4,33 @@ author: "Sneha Kumar and Temesgen"
 date: "`r Sys.Date()`"
 output: html_document
 ---
+# Assignment 4
 
-# Load Function
+For this assignment you will write a new Quartro document based on the analysis of power required for different *possible_cars* from looping.RMD; You will
+
+
+Load Function
 ```{r}
-data <- source("autopower.R")
+library(here)
+source("~/ESM262/ESM262/autopower.R")
 ```
+Add an additional super light car with mass 5,000 kg and a surface area 10m2
+```{r}
+possible_cars = data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10),power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass))
+print(possible_cars)
+
+```
+Compute the mean and maximum power for Cars A, B, C and for your new car, assuming that average highway speed is 80 km/hr with a standard deviation of 10km/hr
+Use 2 different methods to compute the mean and maximum power for each car type
+a) **FOR** loop
+```{r}
+
+```
+b) the **pmap** function from **purr**
+```{r}
+
+```
+Create two boxplots (one for each method (**FOR** and **pmap**)) that show the range of power consumption (across sampled speeds) for each car type.
+
+Put the Quatro in your assignment github and submit a link on Canvas for Assignment 4 when its ready to be graded
 
