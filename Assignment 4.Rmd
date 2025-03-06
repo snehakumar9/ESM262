@@ -6,3 +6,7 @@ output: html_document
 ---
 
 # Load Function
+```{r}
+data <- source("autopower.R")
+```
+
