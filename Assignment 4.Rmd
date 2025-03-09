@@ -16,15 +16,36 @@ source("~/ESM262/ESM262/autopower.R")
 ```
 Add an additional super light car with mass 5,000 kg and a surface area 10m2
 ```{r}
-possible_cars = data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10),power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass))
+possible_cars <- data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10),power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass))
 print(possible_cars)
-
 ```
 Compute the mean and maximum power for Cars A, B, C and for your new car, assuming that average highway speed is 80 km/hr with a standard deviation of 10km/hr
+```{r}
+nsample = 200
+meanspeed_meters = 80*0.277
+speeds = rnorm(mean=meanspeed_meters, sd=10, nsample)
+summary(speeds)
+```
+The mean speed is 22.812 km/hr and the max speed is 53.933 km/hr.
+```{r}
+possible_cars$maxpower = autopower(V=53.933, A=possible_cars$area, m=possible_cars$mass)
+possible_cars$meanpower = autopower(V=22.812, A=possible_cars$area, m=possible_cars$mass)
+print(possible_cars)
+```
+
 Use 2 different methods to compute the mean and maximum power for each car type
 a) **FOR** loop
 ```{r}
+df_forloop <- as.data.frame(matrix(nrow=length(speeds), ncol=nrow(possible_cars)))
+library(dplyr)
+df_forloop <- df_forloop |>
+  rename(A=V1, B=V2, C=V3, New=V4)
 
+for (i in 1:ncol(df_forloop)) {
+  df_forloop[,i] = autopower(A=possible_cars$area[i], m=possible_cars$mass[i], V=speeds)
+}
+
+view(df_forloop)
 ```
 b) the **pmap** function from **purr**
 ```{r}
