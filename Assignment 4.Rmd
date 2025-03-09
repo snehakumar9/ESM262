@@ -8,7 +8,6 @@ output: html_document
 
 For this assignment you will write a new Quartro document based on the analysis of power required for different *possible_cars* from looping.RMD; You will
 
-
 Load Function
 ```{r}
 library(here)
@@ -47,11 +46,39 @@ for (i in 1:ncol(df_forloop)) {
 
 view(df_forloop)
 ```
+
+```{r}
+meanvalues_forloop <- sapply(df_forloop, mean)
+maxvalues_forloop <- sapply(df_forloop,max)
+print(meanvalues_forloop)
+print(maxvalues_forloop)
+```
 b) the **pmap** function from **purr**
 ```{r}
+library(purrr)
+df_pmap <- as.data.frame(pmap(list(A = possible_cars$area, m=possible_cars$mass), autopower, V=speeds))
 
+colnames(df_pmap) <- c("A", "B", "C", "New")
+
+view(df_pmap)
+
+meanvalues_pmap <- sapply(df_pmap, mean)
+maxvalues_pmap <- sapply(df_pmap,max)
+print(meanvalues_pmap)
+print(maxvalues_pmap)
 ```
 Create two boxplots (one for each method (**FOR** and **pmap**)) that show the range of power consumption (across sampled speeds) for each car type.
+```{r}
+forlooppivot <- df_forloop |>
+  pivot_longer(cols = everything(), names_to = "type", values_to = "power")
+forlooppivot
+
+library(ggplot2)
+plot_forloop <- ggplot(data = forlooppivot) +
+  geom_boxplot(aes(type, power, fill=type)) + 
+  ggtitle("For Loop Boxplots")
+view(plot_forloop)
+```
 
 Put the Quatro in your assignment github and submit a link on Canvas for Assignment 4 when its ready to be graded
 
