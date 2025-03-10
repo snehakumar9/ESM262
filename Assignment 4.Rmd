@@ -2,38 +2,48 @@
 title: "Assignment 4"
 author: "Sneha Kumar and Temesgen"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
+
 # Assignment 4
 
 For this assignment you will write a new Quartro document based on the analysis of power required for different *possible_cars* from looping.RMD; You will
 
 Load Function
+
 ```{r}
 library(here)
 source("~/ESM262/ESM262/autopower.R")
 ```
+
 Add an additional super light car with mass 5,000 kg and a surface area 10m2
+
 ```{r}
 possible_cars <- data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10),power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass))
 print(possible_cars)
 ```
+
 Compute the mean and maximum power for Cars A, B, C and for your new car, assuming that average highway speed is 80 km/hr with a standard deviation of 10km/hr
+
 ```{r}
 nsample = 200
 meanspeed_meters = 80*0.277
 speeds = rnorm(mean=meanspeed_meters, sd=10, nsample)
 summary(speeds)
 ```
+
 The mean speed is 22.812 km/hr and the max speed is 53.933 km/hr.
+
 ```{r}
 possible_cars$maxpower = autopower(V=summary(speeds)['Max.'], A=possible_cars$area, m=possible_cars$mass)
 possible_cars$meanpower = autopower(V=summary(speeds)['Mean'], A=possible_cars$area, m=possible_cars$mass)
 print(possible_cars)
 ```
 
-Use 2 different methods to compute the mean and maximum power for each car type
-a) **FOR** loop
+Use 2 different methods to compute the mean and maximum power for each car type a) **FOR** loop
+
 ```{r}
 df_forloop <- as.data.frame(matrix(nrow=length(speeds), ncol=nrow(possible_cars)))
 library(dplyr)
@@ -53,7 +63,9 @@ maxvalues_forloop <- sapply(df_forloop,max)
 print(meanvalues_forloop)
 print(maxvalues_forloop)
 ```
-b) the **pmap** function from **purr**
+
+b)  the **pmap** function from **purr**
+
 ```{r}
 library(purrr)
 df_pmap <- as.data.frame(pmap(list(A = possible_cars$area, m=possible_cars$mass), autopower, V=speeds))
@@ -67,7 +79,9 @@ maxvalues_pmap <- sapply(df_pmap,max)
 print(meanvalues_pmap)
 print(maxvalues_pmap)
 ```
+
 Create two boxplots (one for each method (**FOR** and **pmap**)) that show the range of power consumption (across sampled speeds) for each car type.
+
 ```{r}
 library(tidyverse)
 forlooppivot <- df_forloop |>
@@ -92,5 +106,5 @@ library(ggpubr)
 ggarrange(plot_forloop, plot_pmap)
 
 ```
-Put the Quatro in your assignment github and submit a link on Canvas for Assignment 4 when its ready to be graded
 
+Put the Quatro in your assignment github and submit a link on Canvas for Assignment 4 when its ready to be graded
