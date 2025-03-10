@@ -27,8 +27,8 @@ summary(speeds)
 ```
 The mean speed is 22.812 km/hr and the max speed is 53.933 km/hr.
 ```{r}
-possible_cars$maxpower = autopower(V=53.933, A=possible_cars$area, m=possible_cars$mass)
-possible_cars$meanpower = autopower(V=22.812, A=possible_cars$area, m=possible_cars$mass)
+possible_cars$maxpower = autopower(V=summary(speeds)['Max.'], A=possible_cars$area, m=possible_cars$mass)
+possible_cars$meanpower = autopower(V=summary(speeds)['Mean'], A=possible_cars$area, m=possible_cars$mass)
 print(possible_cars)
 ```
 
@@ -44,7 +44,7 @@ for (i in 1:ncol(df_forloop)) {
   df_forloop[,i] = autopower(A=possible_cars$area[i], m=possible_cars$mass[i], V=speeds)
 }
 
-view(df_forloop)
+View(df_forloop)
 ```
 
 ```{r}
@@ -60,7 +60,7 @@ df_pmap <- as.data.frame(pmap(list(A = possible_cars$area, m=possible_cars$mass)
 
 colnames(df_pmap) <- c("A", "B", "C", "New")
 
-view(df_pmap)
+View(df_pmap)
 
 meanvalues_pmap <- sapply(df_pmap, mean)
 maxvalues_pmap <- sapply(df_pmap,max)
@@ -69,16 +69,28 @@ print(maxvalues_pmap)
 ```
 Create two boxplots (one for each method (**FOR** and **pmap**)) that show the range of power consumption (across sampled speeds) for each car type.
 ```{r}
+library(tidyverse)
 forlooppivot <- df_forloop |>
   pivot_longer(cols = everything(), names_to = "type", values_to = "power")
 forlooppivot
+
+pmappivot <- df_pmap |>
+  pivot_longer(cols = everything(), names_to = "type", values_to = "power")
+pmappivot
 
 library(ggplot2)
 plot_forloop <- ggplot(data = forlooppivot) +
   geom_boxplot(aes(type, power, fill=type)) + 
   ggtitle("For Loop Boxplots")
-view(plot_forloop)
-```
 
+plot_pmap <- ggplot(data = pmappivot) +
+  geom_boxplot(aes(type, power, fill=type)) + 
+  ggtitle("Pmap Boxplots")
+
+library(ggpubr)
+
+ggarrange(plot_forloop, plot_pmap)
+
+```
 Put the Quatro in your assignment github and submit a link on Canvas for Assignment 4 when its ready to be graded
 
