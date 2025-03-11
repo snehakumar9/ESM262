@@ -1,0 +1,24 @@
+---
+title: "Assignment 5"
+author: "Sneha"
+format: pdf
+editor: visual
+---
+
+Design a function - you can pick any subject and you can even make up the equations as long as they conceptually make sense
+
+Make sure it has at least 2 inputs and 1 parameter (ideally more) and at least 2 outputs
+Code your function in R, save as a R file in subdirectory called R
+Make sure you include documentation (both at the top as we've shown in past examples, and inline)
+Include some error checking
+
+In an Quatro file, generate some data for 2 of the function inputs
+- use a *for* loop to run the function for the data
+- repeat the "looping" using something from the "purrr" package
+- Graph results (you can decide what the most interesting way to graph - you just need to make one graph)
+
+- Write at least 2 tests for your function; store in a separate test file
+
+- Put this in a git repo that includes an R subdirectory, a tests subsdirectory and your Quatro file and submit the link on Canvas (you can put all of this in a new git repo or a subdirectory of an existing git repo)
+
+Submit the link to repo on Canvas (and name of subdirectory if part of a larger git project) as a group with your partner,
