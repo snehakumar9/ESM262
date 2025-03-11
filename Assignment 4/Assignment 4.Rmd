@@ -21,7 +21,8 @@ source("~/ESM262/ESM262/autopower.R")
 Add an additional super light car with mass 5,000 kg and a surface area 10m2
 
 ```{r}
-possible_cars <- data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10),power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass))
+possible_cars <- data.frame(name=c("A","B","C","New"), mass=c(10000,65000,38000,5000), area=c(22,30,22,10))
+possible_cars$power=autopower(V=28, A=possible_cars$area, m=possible_cars$mass)
 print(possible_cars)
 ```
 
