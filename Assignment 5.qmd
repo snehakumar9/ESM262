@@ -5,22 +5,23 @@ format: pdf
 editor: visual
 ---
 
-```{r}
+```{undefined}
+#| label: Load Libraries
+#| include: false
 library(purrr)
 library(ggplot2)
 library(tidyverse)
 library(testthat)
-
+library(here)
 ```
 
 Design a function - you can pick any subject and you can even make up the equations as long as they conceptually make sense Make sure it has at least 2 inputs and 1 parameter (ideally more) and at least 2 outputs Code your function in R, save as a R file in subdirectory called R Make sure you include documentation (both at the top as we've shown in past examples, and inline). Include some error checking
 
 The function created is called "function_name.r"
 
-In an Quatro file, generate some data for 2 of the function inputs
+1.  In an Quarto file, generate some data for 2 of the function inputs
 
 ```{r}
-library(here)
 treeID <- c(1:500)
 tree_data <- data.frame(treeID,
                         diameter = rnorm(500, mean=22, sd=5),
@@ -53,10 +54,11 @@ source(here::here("Function", "forest_sequestration.R"))
 Question 1: use a *for* loop to run the function for the data
 
 ```{r}
-for(i in 1:nrow(tree_data)){tree_data$tree_dimensions = tree_data$diameter[i]*tree_data$height[i]}
+for(i in 1:nrow(tree_data)){tree_data$tree_dimensions = tree_data$diameter*tree_data$height}
 
-for(i in tree_data$treeID[i]) {tree_data$tree_biomass = forest_sequestration(diameter = tree_data$diameter,
-                                                                             height= tree_data$height)}
+for(i in tree_data$treeID[i]) {tree_data$tree_biomass = forest_sequestration(
+                                                    diameter = tree_data$diameter,
+                                                    height= tree_data$height)}
 View(tree_data)
 ```
 
@@ -73,9 +75,9 @@ colnames(ftsn2) <- c(1:500)
 View(ftsn2)
 
 
-ftsn2_longer <- pivot_longer(ftsn2_df, cols = everything(), names_to = "treeID", values_to = "FtSn")
+ftsn2_longer <- pivot_longer(ftsn2, cols = everything(), names_to = "treeID", values_to = "FtSn")
 
-View(ftsn2_dflonger)
+View(ftsn2_longer)
 ```
 
 Question 3: Graph results (you can decide what the most interesting way to graph - you just need to make one graph)
@@ -87,8 +89,7 @@ Question 3: Graph results (you can decide what the most interesting way to graph
 Question 4: Write at least 2 tests for your function; store in a separate test file
 
 ```{r}
-source("Function/forest_sequestration.R")
-test_file("testing/ftsn_testing.R")
+source(here::"testing/ftsn_testing.R")
 ```
 
 Put this in a git repo that includes an R subdirectory, a tests subsdirectory and your Quatro file and submit the link on Canvas (you can put all of this in a new git repo or a subdirectory of an existing git repo).
