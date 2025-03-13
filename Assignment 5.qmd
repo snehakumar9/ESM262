@@ -18,7 +18,9 @@ source(here::here("Function", "forest_sequestration.R"))
 treeID <- c(1:500)
 tree_data <- data.frame(treeID,
                         diameter = rnorm(500, mean=22, sd=5),
-                        height = rnorm(500, mean=15, sd=3))
+                        height = rnorm(500, mean=15, sd=3),
+                        tree_dimensions = NA,
+                        tree_biomass = NA)
 View(tree_data)
 
 #tree_density
@@ -29,10 +31,10 @@ View(tree_data)
     #height   <- mean(tree_data$height, na.rm = TRUE) }
   
   # Combine tree dimensions into single variable for clarity / modularity
-  #tree_dimensions <- diameter * height
+  # tree_dimensions <- diameter * height
   
   # Estimate biomass per tree based on combined tree dimensions
-  #biomass_per_tree <- bm_conversion_factor * tree_dimensions
+  # biomass_per_tree <- bm_conversion_factor * tree_dimensions
   
   # Total biomass per hectare (in tons)
   #total_biomass <- tree_density * biomass_per_tree
@@ -52,16 +54,14 @@ plot(density(diameter))
 Question 1: use a *for* loop to run the function for the data
 
 ```{r}
-for(n in 1:500 ){
-  tree_data$biomass_per_tree[n]=
-    tree_data$bm_conversion_factor[n]*tree_dimensions[n]
-}
+for(i in 1:nrow(tree_data)){tree_data$tree_dimensions = 
+  tree_data$diameter[i]*tree_data$height[i]}
 
-for(n in 1:500){
-  tree_data$tree_dimensions[n]=
-    tree_data$diameter[n]*height[n]
-}  
+for(i in tree_data$treeID[i]) {
+  tree_data$tree_biomass = forest_sequestration(diameter = tree_data$diameter,
+                                                height = tree_data$height)}
 
+View(tree_data)
 ```
 
 Question 2: repeat the "looping" using something from the "purrr" package
