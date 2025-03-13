@@ -12,7 +12,7 @@ The function created is called "function_name.r"
 In an Quatro file, generate some data for 2 of the function inputs
 
 ```{r}
-source("R/forest_sequestration.R")
+source("../ESM262_HW5/function/forest_sequestration.R")
 treeID <- c(1:500)
 tree_data <- data.frame(treeID,
                         diameter = rnorm(500, mean=22, sd=5),
@@ -50,6 +50,15 @@ plot(density(diameter))
 Question 1: use a *for* loop to run the function for the data
 
 ```{r}
+for(n in 1:500 ){
+  tree_data$biomass_per_tree[n]=
+    tree_data$bm_conversion_factor[n]*tree_dimensions[n]
+}
+
+for(n in 1:500){
+  tree_data$tree_dimensions[n]=
+    tree_data$diameter[n]*height[n]
+}  
 
 ```
 
