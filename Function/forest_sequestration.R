@@ -1,14 +1,29 @@
 
 
-forest_sequestration <- function(tree_density=NULL,
-                                 avg_diameter=NULL,
-                                 avg_height=NULL,
+forest_sequestration <- function(tree_density=300,
+                                 diameter,
+                                 height,
                                  carbon_fraction = 0.5,
                                  bm_conversion_factor = 0.1,
-                                 growth_rate = 0.03,
-                                 tree_data=NULL){
-  return(list(annual_sequestration = annual_sequestration,
-              total_biomass = total_biomass))
+                                 growth_rate = 0.03){
+  #ensure valid ranges
+  invalid_diameter <- diameter < 0 #diameter can't be negative
+  
+  invalid_height <- height < 0 #height can't be negative
+  
+  if(any(invalid_diameter)) {
+    stop("Invalid diameter value")
+  }
+  
+  if(any(invalid_height)) {
+    stop("Invalid height value")
+  }
+  
+  #Vectorized forest sequestration calculation
+  FtSn <- tree_density * (pi * (diameter/2)^2) * height * carbon_fraction * bm_conversion_factor * growth_rate
+  
+  
+  return(FtSn)
   # Documentation:
   # note: setting some values as NULL initially, in case there is a raw data table we use to compute those values first!
   # > if not given the raw data table with necessary columns to compute these values, apply given values for each 
@@ -26,6 +41,6 @@ forest_sequestration <- function(tree_density=NULL,
   # Return both outputs as a list
   
 # Example usage (given some values):
-result2 <- forest_sequestration(tree_density = 500, avg_diameter = 30, avg_height = 10)
+result2 <- forest_sequestration(tree_density = 300, diameter = 30, height = 10)
 print(result2)
 }
