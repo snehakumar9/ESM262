@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5"
-author: "Sneha and Bella"
+author: "Sneha, Bella, and Kyle"
 format: pdf
 editor: visual
 ---
