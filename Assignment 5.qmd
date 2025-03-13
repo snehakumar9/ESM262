@@ -12,7 +12,9 @@ The function created is called "function_name.r"
 In an Quatro file, generate some data for 2 of the function inputs
 
 ```{r}
-source("../ESM262_HW5/function/forest_sequestration.R")
+library(here)
+source(here::here("Function", "forest_sequestration.R"))
+
 treeID <- c(1:500)
 tree_data <- data.frame(treeID,
                         diameter = rnorm(500, mean=22, sd=5),
