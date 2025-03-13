@@ -20,52 +20,65 @@ The function created is called "function_name.r"
 In an Quatro file, generate some data for 2 of the function inputs
 
 ```{r}
-source("Function/forest_sequestration.R")
+library(here)
 treeID <- c(1:500)
 tree_data <- data.frame(treeID,
                         diameter = rnorm(500, mean=22, sd=5),
-                        height = rnorm(500, mean=15, sd=3))
+                        height = rnorm(500, mean=15, sd=3),
+                        tree_dimensions = NA,
+                        tree_biomass = NA
+                        )
 View(tree_data)
 
-tree_density
+source(here::here("Function", "forest_sequestration.R"))
 
 # If raw tree data is provided by user, calculate the averages and density.
-if (!is.null(tree_data)) {
-    diameter <- mean(tree_data$diameter, na.rm = TRUE)
-    height   <- mean(tree_data$height, na.rm = TRUE) }
+# if (!is.null(tree_data)) {
+    # diameter <- mean(tree_data$diameter, na.rm = TRUE)
+    # height   <- mean(tree_data$height, na.rm = TRUE) }
   
   # Combine tree dimensions into single variable for clarity / modularity
-  tree_dimensions <- pi * (diameter/2)^2) * height
+  # tree_dimensions <- pi * (diameter/2)^2*height
   
   # Estimate biomass per tree based on combined tree dimensions
-  biomass_per_tree <- bm_conversion_factor * tree_dimensions
+  # biomass_per_tree <- bm_conversion_factor * tree_dimensions
   
   # Total biomass per hectare (in tons)
-  total_biomass <- tree_density * biomass_per_tree
+  # total_biomass <- tree_density * biomass_per_tree
   
   # Annual forest carbon sequestration: (growth-related biomass increase) * (carbon fraction)
-  annual_sequestration <- total_biomass * growth_rate * carbon_fraction
-  
-
+  # annual_sequestration <- total_biomass * growth_rate * carbon_fraction
 ```
 
 Question 1: use a *for* loop to run the function for the data
 
 ```{r}
+for(i in 1:nrow(tree_data)){tree_data$tree_dimensions = tree_data$diameter[i]*tree_data$height[i]}
 
+for(i in tree_data$treeID[i]) {tree_data$tree_biomass = forest_sequestration(diameter = tree_data$diameter,
+                                                                             height= tree_data$height)}
+View(tree_data)
 ```
 
 Question 2: repeat the "looping" using something from the "purrr" package
 
 ```{r}
+library(purrr)
 #running function for each value in parameters with pmap
-ftsn2 = pmap(list(diameter = tree_data$diameter, height = tree_data$height), forest_sequestration)
+ftsn2 = 
+View(ftsn2)
 
 #turn into dataframe
-ftsn2 = as.data.frame(ftsn2)
+ftsn2 <- as.data.frame(pmap(list(diameter = tree_data$diameter,
+                                    height = tree_data$height),
+                               forest_sequestration))
+colnames(ftsn2) <- c(1:500)
+View(ftsn2)
 
-ftsn2 <- pivot_longer(ftsn2, cols = everything(), names_to = "tree", values_to = "FtSn")
 
+ftsn2_longer <- pivot_longer(ftsn2_df, cols = everything(), names_to = "treeID", values_to = "FtSn")
+
+View(ftsn2_dflonger)
 ```
 
 Question 3: Graph results (you can decide what the most interesting way to graph - you just need to make one graph)
