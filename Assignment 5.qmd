@@ -12,9 +12,16 @@ The function created is called "function_name.r"
 In an Quatro file, generate some data for 2 of the function inputs
 
 ```{r}
+treeID <- c(1:500)
+tree_data <- data.frame(treeID,
+                        diameter = rnorm(500, mean=22, sd=5),
+                        height = rnorm(500, mean=15, sd=3))
+View(tree_data)
+
+tree_density
 
 # If raw tree data is provided by user, calculate the averages and density.
-  if (!is.null(tree_data)) {
+if (!is.null(tree_data)) {
     avg_diameter <- mean(tree_data$diameter, na.rm = TRUE)
     avg_height   <- mean(tree_data$height, na.rm = TRUE)
   
@@ -30,8 +37,6 @@ In an Quatro file, generate some data for 2 of the function inputs
   # Annual forest carbon sequestration: (growth-related biomass increase) * (carbon fraction)
   annual_sequestration <- total_biomass * growth_rate * carbon_fraction
   
-  # Return both outputs as a list
-  return(list(annual_sequestration = annual_sequestration, total_biomass = total_biomass))
 
 ```
 
