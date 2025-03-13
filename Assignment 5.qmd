@@ -65,9 +65,6 @@ Question 2: repeat the "looping" using something from the "purrr" package
 ```{r}
 library(purrr)
 #running function for each value in parameters with pmap
-ftsn2 = 
-View(ftsn2)
-
 #turn into dataframe
 ftsn2 <- as.data.frame(pmap(list(diameter = tree_data$diameter,
                                     height = tree_data$height),
