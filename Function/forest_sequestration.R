@@ -44,3 +44,8 @@ forest_sequestration <- function(tree_density=300,
 result2 <- forest_sequestration(tree_density = 300, diameter = 30, height = 10)
 print(result2)
 }
+
+#running function for each value in parameters with pmap
+ftsn2 = pmap(list(diameter = tree_data$diameter, height = tree_data$height), forest_sequestration)
+
+
